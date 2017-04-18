@@ -4,17 +4,23 @@
 An android password view that looks like the pay password view in wechat app and alipay app.
 Apache License 2.0.
 
-##Quick Overview
+## Quick Overview
 
  - Download [demo-0.3.apk][2]
  - Screenshots
+ 
+### before
 
 ![demo][1]
 
+### now
 
-##Getting Started
+![platenumber][3]
+
+## Getting Started
 
  - Add the dependency to your build.gradle.
+ 
 ```
 dependencies {
     compile 'com.jungly:gridPasswordView:0.3'
@@ -45,9 +51,32 @@ or Maven:
         app:gpvPasswordLength="6"
         app:gpvPasswordTransformation="$"
         app:gpvPasswordType="numberPassword / textPassword / textVisiblePassword / textWebPassword"/>
+        
+        <com.kw.lib.ui.keyboardview.XKeyboardView
+            android:id="@+id/view_keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="#d1d5db"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:keyBackground="@drawable/selector_key_background"
+            android:keyPreviewHeight="43dp"
+            android:keyPreviewLayout="@layout/key_preview_layout"
+            android:keyPreviewOffset="-43dp"
+            android:keyTextColor="#333333"
+            android:keyTextSize="16dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:shadowColor="#00000000"
+            android:shadowRadius="0.0"
+            android:visibility="gone"
+            app:deleteBackground="@drawable/selector_key_backspace_background"
+            app:deleteDrawable="@drawable/sym_keyboard_delete" />
 ```
 
-##How to use
+## How to use
 `getPassWord()`    get the text the PasswordView is displaying  
 `clearPassword()`:  clear password in the view  
 `setPassword(String password)`    just like the setText(String s) method of textview  
@@ -56,9 +85,10 @@ or Maven:
 `setOnPasswordChangedListener(OnPasswordChangedListener listener)`   Register a callback to be invoked when password changed.  
 `setPasswordType(PasswordType passwordType)`  one of numberPassword 、textPassword 、TEXtextVisiblePassword、textWebPassword  
 
-##Other
+## Other
 If you use this library in your app, please let me know : jungly.ik@gmail.com
-##Contributing
+
+## Contributing
 
 Yes:) If you found a bug, have an idea how to improve library or have a question, please create new issue or comment existing one. If you would like to contribute code fork the repository and send a pull request.
 
@@ -81,3 +111,4 @@ License
 
   [1]: http://jungerr.qiniudn.com/gridpasswordview_0.2.gif
   [2]: https://github.com/Jungerr/GridPasswordView/blob/master/demo/demo-0.3.apk
+  [3]: demo/platenumber_demo.gif
