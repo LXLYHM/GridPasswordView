@@ -1,11 +1,15 @@
 package com.jungly.gridpasswordview.demo;
 
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Spinner;
 
+import com.kw.lib.ui.keyboardview.XKeyboardView;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.jungly.gridpasswordview.PasswordType;
 
@@ -15,10 +19,8 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnItemSelected;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
-    @InjectView(R.id.gpv_normal)
-    GridPasswordView gpvNormal;
     @InjectView(R.id.gpv_length)
     GridPasswordView gpvLength;
     @InjectView(R.id.gpv_transformation)
@@ -29,10 +31,14 @@ public class MainActivity extends ActionBarActivity {
     GridPasswordView gpvCustomUi;
     @InjectView(R.id.gpv_normail_twice)
     GridPasswordView gpvNormalTwice;
+    @InjectView(R.id.gpvPlateNumber)
+    GridPasswordView gpvPlateNumber;
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.pswtype_sp)
     Spinner pswtypeSp;
+    @InjectView(R.id.view_keyboard)
+    XKeyboardView viewKeyboard;
 
     boolean isFirst = true;
     String firstPwd;
@@ -44,8 +50,57 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
-
+        testPlateNumberInput();
         onPwdChangedTest();
+    }
+
+    private void testPlateNumberInput() {
+        viewKeyboard = (XKeyboardView) findViewById(R.id.view_keyboard);
+        viewKeyboard.setIOnKeyboardListener(new XKeyboardView.IOnKeyboardListener() {
+            @Override
+            public void onInsertKeyEvent(String text) {
+                gpvPlateNumber.appendPassword(text);
+            }
+
+            @Override
+            public void onDeleteKeyEvent() {
+                gpvPlateNumber.deletePassword();
+            }
+        });
+        gpvPlateNumber.togglePasswordVisibility();
+        gpvPlateNumber.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
+            @Override
+            public boolean beforeInput(int position) {
+                if (position == 0) {
+                    viewKeyboard.setKeyboard(new Keyboard(MainActivity.this, R.xml.provice));
+                    viewKeyboard.setVisibility(View.VISIBLE);
+                    return true;
+                } else if (position >= 1 && position < 2) {
+                    viewKeyboard.setKeyboard(new Keyboard(MainActivity.this, R.xml.english));
+                    viewKeyboard.setVisibility(View.VISIBLE);
+                    return true;
+                } else if (position >= 2 && position < 6) {
+                    viewKeyboard.setKeyboard(new Keyboard(MainActivity.this, R.xml.qwerty_without_chinese));
+                    viewKeyboard.setVisibility(View.VISIBLE);
+                    return true;
+                } else if (position >= 6 && position < 7) {
+                    viewKeyboard.setKeyboard(new Keyboard(MainActivity.this, R.xml.qwerty));
+                    viewKeyboard.setVisibility(View.VISIBLE);
+                    return true;
+                }
+                viewKeyboard.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public void onTextChanged(String psw) {
+
+            }
+
+            @Override
+            public void onInputFinish(String psw) {
+            }
+        });
     }
 
     @OnCheckedChanged(R.id.psw_visibility_switcher)
@@ -77,18 +132,23 @@ public class MainActivity extends ActionBarActivity {
 
     // Test GridPasswordView.clearPassword() in OnPasswordChangedListener.
     // Need enter the password twice and then check the password , like Alipay
-    void onPwdChangedTest(){
+    void onPwdChangedTest() {
         gpvNormalTwice.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
             @Override
+            public boolean beforeInput(int position) {
+                return false;
+            }
+
+            @Override
             public void onTextChanged(String psw) {
-                if (psw.length() == 6 && isFirst){
+                if (psw.length() == 6 && isFirst) {
                     gpvNormalTwice.clearPassword();
                     isFirst = false;
                     firstPwd = psw;
-                }else if (psw.length() == 6 && !isFirst){
-                    if (psw.equals(firstPwd)){
+                } else if (psw.length() == 6 && !isFirst) {
+                    if (psw.equals(firstPwd)) {
                         Log.d("MainActivity", "The password is: " + psw);
-                    }else {
+                    } else {
                         Log.d("MainActivity", "password doesn't match the previous one, try again!");
                         gpvNormalTwice.clearPassword();
                         isFirst = true;
@@ -97,7 +157,8 @@ public class MainActivity extends ActionBarActivity {
             }
 
             @Override
-            public void onInputFinish(String psw) { }
+            public void onInputFinish(String psw) {
+            }
         });
     }
 
@@ -105,5 +166,16 @@ public class MainActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (viewKeyboard.isShown()) {
+                viewKeyboard.setVisibility(View.GONE);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
