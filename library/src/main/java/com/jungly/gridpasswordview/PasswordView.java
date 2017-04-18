@@ -15,6 +15,10 @@ interface PasswordView {
 
     void setPassword(String password);
 
+    void appendPassword(String password);
+
+    void deletePassword();
+
     void setPasswordVisibility(boolean visible);
 
     void togglePasswordVisibility();
