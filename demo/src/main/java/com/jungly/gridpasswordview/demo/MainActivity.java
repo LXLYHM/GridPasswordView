@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.kw.lib.ui.keyboardview.XKeyboardView;
 import com.jungly.gridpasswordview.GridPasswordView;
@@ -94,11 +95,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(String psw) {
-
+                Log.e("MainActivity","onTextChanged：" + psw);
             }
 
             @Override
             public void onInputFinish(String psw) {
+                Log.e("MainActivity","onInputFinish：" + psw);
             }
         });
     }

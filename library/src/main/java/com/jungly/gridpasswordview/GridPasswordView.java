@@ -433,7 +433,7 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mInputView.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
             mInputView.clearFocus();
-            if (mListener != null) {
+            if (mListener != null && !currentPsw.contains(" ")) {
                 mListener.onInputFinish(currentPsw);
             }
         }
@@ -473,10 +473,13 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
     public String getPassWord() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < mPasswordArr.length; i++) {
-            if (mPasswordArr[i] != null)
+            if (mPasswordArr[i] != null) {
                 sb.append(mPasswordArr[i]);
+            } else {
+                sb.append(" ");
+            }
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     /**
