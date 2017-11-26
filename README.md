@@ -6,7 +6,7 @@ Apache License 2.0.
 
 ## Quick Overview
 
- - Download [demo-0.3.apk][2]
+ - Download [demo-0.4.apk][2]
  - Screenshots
  
 ### before
@@ -110,5 +110,5 @@ License
     limitations under the License.
 
   [1]: http://jungerr.qiniudn.com/gridpasswordview_0.2.gif
-  [2]: https://github.com/Jungerr/GridPasswordView/blob/master/demo/demo-0.3.apk
+  [2]: https://github.com/Jungerr/GridPasswordView/blob/master/demo/demo-0.4.apk
   [3]: demo/platenumber_demo.gif

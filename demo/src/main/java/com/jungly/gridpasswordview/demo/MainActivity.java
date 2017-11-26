@@ -8,37 +8,36 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.kw.lib.ui.keyboardview.XKeyboardView;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.jungly.gridpasswordview.PasswordType;
+import com.kw.lib.ui.keyboardview.XKeyboardView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnItemSelected;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    @InjectView(R.id.gpv_length)
+    @BindView(R.id.gpv_length)
     GridPasswordView gpvLength;
-    @InjectView(R.id.gpv_transformation)
+    @BindView(R.id.gpv_transformation)
     GridPasswordView gpvTransformation;
-    @InjectView(R.id.gpv_passwordType)
+    @BindView(R.id.gpv_passwordType)
     GridPasswordView gpvPasswordType;
-    @InjectView(R.id.gpv_customUi)
+    @BindView(R.id.gpv_customUi)
     GridPasswordView gpvCustomUi;
-    @InjectView(R.id.gpv_normail_twice)
+    @BindView(R.id.gpv_normail_twice)
     GridPasswordView gpvNormalTwice;
-    @InjectView(R.id.gpvPlateNumber)
+    @BindView(R.id.gpvPlateNumber)
     GridPasswordView gpvPlateNumber;
-    @InjectView(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.pswtype_sp)
+    @BindView(R.id.pswtype_sp)
     Spinner pswtypeSp;
-    @InjectView(R.id.view_keyboard)
+    @BindView(R.id.view_keyboard)
     XKeyboardView viewKeyboard;
 
     boolean isFirst = true;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
         testPlateNumberInput();
@@ -167,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.reset(this);
+//        ButterKnife.unbind(this);
     }
 
     @Override

@@ -114,7 +114,7 @@
             android:codes="67"
             android:keyLabel="C" />
         <Key
-            android:codes="76"
+            android:codes="86"
             android:keyLabel="V" />
         <Key
             android:codes="66"
