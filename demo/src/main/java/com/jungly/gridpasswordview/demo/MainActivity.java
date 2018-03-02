@@ -84,7 +84,11 @@ public class MainActivity extends AppCompatActivity {
                     viewKeyboard.setVisibility(View.VISIBLE);
                     return true;
                 } else if (position >= 6 && position < 7) {
-                    viewKeyboard.setKeyboard(new Keyboard(MainActivity.this, R.xml.qwerty));
+                    if (gpvPlateNumber.getPassWord().startsWith("粤Z")) {
+                        viewKeyboard.setKeyboard(new Keyboard(MainActivity.this, R.xml.qwerty));
+                    } else {
+                        viewKeyboard.setKeyboard(new Keyboard(MainActivity.this, R.xml.qwerty_without_chinese));
+                    }
                     viewKeyboard.setVisibility(View.VISIBLE);
                     return true;
                 }
@@ -94,12 +98,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(String psw) {
-                Log.e("MainActivity","onTextChanged：" + psw);
+                Log.e("MainActivity", "onTextChanged：" + psw);
             }
 
             @Override
             public void onInputFinish(String psw) {
-                Log.e("MainActivity","onInputFinish：" + psw);
+                Log.e("MainActivity", "onInputFinish：" + psw);
             }
         });
     }
