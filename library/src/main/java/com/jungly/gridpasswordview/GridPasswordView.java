@@ -22,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -247,9 +246,10 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
         } else {
 //            mInputView.setEnabled(true);
             forceInputViewGetFocus();
-
-            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(mInputView, InputMethodManager.SHOW_IMPLICIT);
+            if (position!=mPasswordLength){
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mInputView, InputMethodManager.SHOW_IMPLICIT);
+            }
 
         }
         positionForListener = position;
@@ -429,13 +429,13 @@ public class GridPasswordView extends LinearLayout implements PasswordView {
         if (mListener != null) {
             mListener.onTextChanged(currentPsw);
         }
-        if (currentPsw.length() == mPasswordLength) {
-            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(mInputView.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-            mInputView.clearFocus();
+        if (currentPsw.length() == mPasswordLength && position == mPasswordLength) {
             if (mListener != null && !currentPsw.contains(" ")) {
                 mListener.onInputFinish(currentPsw);
             }
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mInputView.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+            mInputView.clearFocus();
         }
     }
 
